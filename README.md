@@ -139,4 +139,52 @@
 
 ```
 
+#### repo 命令使用
+
+    Android 使用 Git 作为代码管理工具，开发了 Gerrit 进行代码审核以便更好的对代码进行集中式管理
+    
+    还开发了 Repo 命令行工具，对 Git 部分命令封装，将百多个 Git 库有效的进行组织
+
+```
+(1) repo init
+    repo init -u ssh://xxxxt -b xxx -m default.xml -g all --repo-url=ssh:xxx --repo-branch=stable-v2.4.1 --no-repo-verify
+
+常用选项：
+-u: manifest的仓库地址
+-b: manifest仓库的branch（非开发分支的branch）
+-m: 使用的manifest文件，缺省默认使用default.xml
+-g: 使用的group，创建新的release分支时，可以用-g UCIT来单独下载我们有改动的仓库
+--repo-url: 使用的repo仓库，默认会去找/usr/bin/repo里的源，搜索关键字“REPO_URL”
+--repo-branch: repo仓库的分支
+--no-repo-verify: 不对repo的签名做验证
+
+(2) repo sync
+    repo sync -c -d --no-tags -q -m snapshot/cxxxx.xml --force-sync
+
+-c： 下载仓库时仅下载revision指定的分支，当前项目不可使用这个选项，会导致编译问题（有脚本会从.git里获取版本信息）
+--no-tags：不下载任何tag信息，当前项目不可使用这个选项，会导致编译问题
+-q：不显示详细下载信息
+-d：将分支恢复为和manifest文件匹配的revision，可以用于还原新的commit或者patch，也可以还原分支的切换。不能还原没有commit的修改，也不能还原新的文件
+-m xxx.xml：下载指定manifest文件里的版本，请删除相关的仓库后使用这个命令，避免引起分支混乱
+--force-sync：强制更新。为了避免引发环境错乱，通常不建议使用，目前仅有一个适用场景，就是仓库从TP的仓库变更为项目自己的仓库，重新repo sync时需要force
+
+(3) repo start
+    用来创建分支
+
+(4) repo status
+    等同于进入每个仓库执行了git status
+
+(5) repo forall
+    等同于进入各个仓库执行命令（不限于git命令）
+    
+(6) repo manifest
+    下载完代码后，制作manifest的snapshot 
+
+```
+
+
+
+
+
+
 

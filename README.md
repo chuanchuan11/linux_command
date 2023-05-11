@@ -12,7 +12,7 @@
 	umount -l /home               取消现有的挂载
 	sudo mount /dev/sdb1 /home    挂载新的硬盘
 	sudo blkid    获取挂载点的UUID
-    /etc/fstab    去该目录下，设置开机挂载
+    	/etc/fstab    去该目录下，设置开机挂载
 
 
 ```
@@ -78,7 +78,7 @@
 	git diff --cached  
 	
 	显示未在暂存区文件的修改内容
-    git diff [path/file] 
+    	git diff [path/file] 
 
 (6) 查看最近或某次提交得修改
 
@@ -98,7 +98,7 @@
     //在用上述 git clean 前，强烈建议加上 -n 参数来先看看会删掉哪些文件，防止重要文件被误删
 	git clean -nxfd 
 	git clean -nf
-    git clean -nfd
+    	git clean -nfd
 
 (8) Git stash使用
 

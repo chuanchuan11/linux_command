@@ -105,32 +105,32 @@
 	git stash 命令不会存储下列文件:
 		a) 工作区中新增的文件（untracked files）
 		b) 被版本库忽略的文件（.gitignore 中定义的）
-        c) 如果你还想要存储 untracked files，可以使用 -u 选项
+		c) 如果你还想要存储 untracked files，可以使用 -u 选项
 
 	git stash -u  //如果你还想要存储 untracked files 和被版本库忽略的文件，可以使用 -a 选项
 	git stash -a  //一般不推荐这么做，因为既然是被版本库忽略的文件，就没有必要再存储起来。除非你有非常特别的需求
 	git stash save "备注信息"  //使用 save 选项,添加一个 message 注解
 	git stash list //查看堆栈中的 stash 列表，堆栈中可能会有多个 stash，通过 stash_id 进行区分
 	
-    查看 stash 的内容：
-	    git stash show               //查看最近一次存储的文件情况
-        git stash show -p            //查看最近一次存储文件中的具体内容
-        git stash show stash@{id}    //查看具体某次存储的文件情况
-	    
+	查看 stash 的内容：
+		git stash show               //查看最近一次存储的文件情况
+        	git stash show -p            //查看最近一次存储文件中的具体内容
+        	git stash show stash@{id}    //查看具体某次存储的文件情况
+
 	将堆栈中的 stash 应用到工作区
 		git stash apply stash@{id}   //将堆栈中的指定 stash 应用到工作区（保留堆栈的内容）
 		git stash apply              //将堆栈中的最近一次 stash，应用到工作区（保留堆栈的内容）
 
-    在成功应用了堆栈的 stash 后，立即将其从堆栈中删除
-	    git stash drop stash@{id}    //删除指定的 stash
-	    git stash drop               //删除最近一次的 stash
-	    git stash pop                //将堆栈中的最近一次 stash，应用到工作区并删除堆栈的内容
-        git stash clear              //删除所有的 stash
+    	在成功应用了堆栈的 stash 后，立即将其从堆栈中删除
+		git stash drop stash@{id}    //删除指定的 stash
+		git stash drop               //删除最近一次的 stash
+		git stash pop                //将堆栈中的最近一次 stash，应用到工作区并删除堆栈的内容
+		git stash clear              //删除所有的 stash
 
 (9) 放弃本地文件的修改
 	git reset HEAD filename   //已经 git add到暂存区的文件，移动到工作区(使用. 移动所有文件)
 	git checkout -- filename  //未使用git add 缓存代码，放弃修改, 注意中间有-- （使用. 放弃所有文件）
-    git clean -f              //删除 untracked files
+	git clean -f              //删除 untracked files
 
 ```
 

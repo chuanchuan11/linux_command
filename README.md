@@ -128,9 +128,14 @@
 		git stash clear              //删除所有的 stash
 
 (9) 放弃本地文件的修改
+	git reset commitId        //取消commit的提交到工作区 (等于加--hard)
+	git reset --soft commitId //取消commit的提交到暂存区
 	git reset HEAD filename   //已经 git add到暂存区的文件，移动到工作区(使用. 移动所有文件)
 	git checkout -- filename  //未使用git add 缓存代码，放弃修改, 注意中间有-- （使用. 放弃所有文件）
 	git clean -f              //删除 untracked files
+
+(10) 查看git 操作历史
+	git reflog
 
 ```
 

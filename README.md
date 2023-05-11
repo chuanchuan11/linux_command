@@ -26,6 +26,14 @@
     修改命令：
     sysctl -w net.ipv4.conf.all.rp_filter=0
 
+(4) linux 路由表文件
+    /etc/data/iproute2/rt_tables
+    
+    
+    
+    
+    
+    
 ```
 
 

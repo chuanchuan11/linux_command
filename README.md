@@ -74,6 +74,11 @@
     mount -o remount rw /
     
 (17) 
+
+
+
+
+
 ```
 
 #### 网络相关
@@ -95,7 +100,7 @@
 (4) linux 路由表文件
     /etc/data/iproute2/rt_tables
     
-(5) 查看vlan配置信息
+(5) vlan信息查看与路由arp开关
     cat /proc/net/vlan/config
     
     5.1) bridge路由开关
@@ -135,7 +140,18 @@
     由于vlan加速传输,vlan id被内核层过滤重建, 所有需要将未过滤的输出传递到另一个tcpdump中
     tcpdump -i usb0 -Uw | tcpdump -enr - vlan 20 //抓取vlan20的包
     
+(10) ip route 路由操作
+    ip route add/del <ip> dev <dev name> table <id> //添加删除路由
+    ip route add default via <ip> dev <dev name>    //添加默认路由
+    ip route show //查看路由
+
+(11) ip rule 路由策略
+    ip rule show //查看策略
+    ip rule add/del <rule> lookup <tableId>  //添加删除策略
     
+(12) conntrack 状态检查
+    conntrack -L  //查看状态
+    conntrack -E  //输出状态
 ```
 
 #### git命令

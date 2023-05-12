@@ -9,12 +9,71 @@
     sudo du -sh ./ui*  查看ui目录占用空间
 
 (2) 设置硬盘挂载
-	umount -l /home               取消现有的挂载
-	sudo mount /dev/sdb1 /home    挂载新的硬盘
-	sudo blkid    获取挂载点的UUID
-    	/etc/fstab    去该目录下，设置开机挂载
+    umount -l /home               取消现有的挂载
+    sudo mount /dev/sdb1 /home    挂载新的硬盘
+    sudo blkid    获取挂载点的UUID
+    /etc/fstab    去该目录下，设置开机挂载
 
+(3) 查看linux kernel信息
+    dmesg
+    
+(4) tail 实时查看log日志
 
+(5) nslookup 域名解析
+    nslookup www.baidu.com 119.29.29.29  //用指定域名服务器解析
+
+(6) ethtool 查看网卡信息
+
+(7) ifconfig 配置网卡信息
+
+(8) iptables 防火墙
+    -nvL: 显示信息
+    -t: 指定表名，filter/nat/mangle
+
+(9) brctl show 查看bridge信息
+
+(10) ping6 测试ipv6网络
+
+(11) tcpdump 抓取网络数据包
+
+    -i: 指定网卡, -i any 查看所有网卡口
+    -e: 增加以太网帧头部信息输出
+    icmp: 只看icmp消息
+    port: 指定端口
+    -n: 不转换主机地址到主机名
+    -v: 查看详细信息
+    -w: 将抓取信息保存到指定文件
+    
+(12) curl 命令行下的文件传输工具, 通过http、ftp等方式下载文件，也能够上传文件
+
+    curl https://www.baidu.com -k  //测试访问百度, 默认443端口
+    curl --interface usb0.1 https://www.baidu.com -k  //指定网卡口访问
+
+(13) linux 设置http访问代理
+
+    export http_proxy="http://proxy-XXXXX"    //设置http代理
+    export https_proxy="https://proxy-XXXXX:" //设置https代理
+
+    取消代理:
+        unset http_proxy
+	unset https_proxy
+
+(14) linux overlays 修改文件
+    
+       enable:  echo /opt > /data/overlays  //打开/opt目录的overlays
+                sync  //同步
+		sync 
+       disable: rm /data/overlays           //删除overylays
+
+(15) 生成linux服务启动的时序图
+
+    systemd-analyze plot > /data/bootchar.svg
+    
+(16) 使能linux 根目录读写权限
+    
+    mount -o remount rw /
+    
+(17) 
 ```
 
 #### 网络相关
@@ -36,9 +95,45 @@
 (4) linux 路由表文件
     /etc/data/iproute2/rt_tables
     
+(5) 查看vlan配置信息
+    cat /proc/net/vlan/config
+    
+    5.1) bridge路由开关
+         /proc/sys/net/ipv4/conf/bridge1/forwarding
+    
+    5.2) 禁止bridge arp
+         ip link set dev bridge1 arp off
+
+    5.3) 禁止数据包转发
+         echo 0 > /proc/sys/net/ipv4/conf/bridge1/forwarding
     
     
+(6) 创建vlan方法1
+    ip link add link <eth0> name <vlan_1> type vlan id <1>   //创建vlan
+    ip link set <vlan_1> address <02:00:00:00:00:02>         //配置mac
+    ip addr add <192.152.2.3/24> dev <vlan_1>		     //配置ip
+    ip link set <vlan_1> up				     //启动
+
+(7) 创建vlan方法2
+    vconfig add <eth0> <1>                                   //创建vlan
+    ifconfig <eth0.1> 192.152.2.3 netmask 255.255.255.0 up   //配置ip并启动
     
+(8) 创建bridge方法
+    vconfig add <eth0> <1>   //创建vlan接口
+    brctl addbr <bridge1>    //创建bridge
+    ifconfig <bridge1> <192.152.2.3> netmask <255.255.255.0> //配置bridge ip
+    ifconfig <bridge1> hw ether <02:00:00:00:00:02> //配置mac
+    brctl addif <bridge1> <eth0.1> //添加桥接
+    brctl defif <bridge1> <eth0.1> //删除桥接
+    
+    删除bridge方法：
+        ifconfig <bridge1> down  //关闭bridge
+	brctl delbr <bridge1>    //删除bridge
+    
+(9) tcpdump 抓取不到vlan信息解决方法
+    
+    由于vlan加速传输,vlan id被内核层过滤重建, 所有需要将未过滤的输出传递到另一个tcpdump中
+    tcpdump -i usb0 -Uw | tcpdump -enr - vlan 20 //抓取vlan20的包
     
     
 ```

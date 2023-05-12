@@ -182,7 +182,99 @@
 
 ```
 
+#### docker 使用
 
+```
+(0) 简介
+    
+    Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+
+    docker主机(Host): 安装了docker程序的机器(docker直接安装在操作系统之上)
+    docker客户端(Client): 连接docker主机进行操作
+    docker仓库(Registry): 用来保存各种打包好的软件镜像
+    docker镜像(Images): 软件打包好的镜像；放在docker仓库中
+    docker容器(Container): 镜像启动后的实例称为一个容器;容器是独立运行的一个或一组应用
+     
+(1) docker run 创建并运行容器 (docker creat则只创建不运行)
+
+    语法：
+         docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+    
+    options:
+         -d: 后台运行容器，并返回容器ID
+	 -i: 以交互模式运行容器, 通常与-t同时使用
+	 -t: 为容器重新分配一个伪输入终端, 通常与-i同时使用
+	 --name: 为容器指定一个名称
+	 --net: 指定容器的网络连接类型, 支持bridge/host/none/container四种类型
+         -v: 挂载磁盘卷，即把主机目录映射到容器目录
+	 --privileged: 使用该参数,container内的root拥有真正的root权限, 否则container内的root只是外部的一个普通用户权限
+	 
+     实例1: 使用镜像nginx:latest 以后台模式启动一个容器,并命令为mycontainer，网络类型为host，主机目录home和dev映射到容器的对应目录
+         docker run -itd --privileged --name mycontainer --network host -v $HOME:$HOME -v /dev:/dev nginx:latest
+	 
+(2) docker start/stop/restart 运行/停止/重启命令
+    
+    docker start <containerID or containerName>: 启动已经被停止的容器
+
+    docker stop <containerID or containerName>: 停止运行中的容器
+
+    docker restart <containerID or containerName>: 重启容器
+    
+(3) Docker kill 命令
+
+    docker kill -s KILL <containerId or Name>: 杀掉运行中的容器
+
+(4) docker rm 删除容器
+
+    语法：
+        docker rm [OPTIONS] CONTAINER [CONTAINER...]
+    options:
+       -f :通过 SIGKILL 信号强制删除一个运行中的容器。
+       -l :移除容器间的网络连接，而非容器本身。
+       -v :删除与容器关联的卷 
+
+(5) docker exec 在运行的容器中执行命令
+    
+    语法：
+        docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+    options:
+        -d :分离模式: 在后台运行
+        -i :即使没有附加也保持STDIN 打开
+        -t :分配一个伪终端
+    
+    实例：
+        docker exec -it mynginx /bin/sh /root/runoob.sh  在容器中以交互模式执行容器内/root/runoob.sh脚本
+	docker exec -i -t  mynginx /bin/bash  在容器中开启一个交互模式的终端
+
+(6) docker ps 列出容器
+
+    语法：
+        docker ps [OPTIONS]
+    options:
+          -a :显示所有的容器，包括未运行的。
+          -f :根据条件过滤显示的内容。
+          --format :指定返回值的模板文件。
+          -l :显示最近创建的容器。
+          -n :列出最近创建的n个容器。
+          --no-trunc :不截断输出。
+          -q :静默模式，只显示容器编号。
+          -s :显示总的文件大小 
+
+(7) docker cp 用于容器与主机之间的数据拷贝
+
+    docker cp /www/runoob 96f7f14e99ab:/www/    将主机/www/runoob目录拷贝到容器96f7f14e99ab的/www目录下
+    docker cp /www/runoob 96f7f14e99ab:/www     将主机/www/runoob目录拷贝到容器96f7f14e99ab中，目录重命名为www
+    docker cp  96f7f14e99ab:/www /tmp/          将容器96f7f14e99ab的/www目录拷贝到主机的/tmp目录中
+
+(8) docker images : 列出本地镜像
+
+    -a :列出本地所有的镜像（含中间映像层，默认情况下，过滤掉中间映像层）；
+    
+(9) docker rmi : 删除本地一个或多个镜像
+    
+    
+
+```
 
 
 
